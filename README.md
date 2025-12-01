@@ -1,7 +1,6 @@
 # SIG-PROFREE: SISTEMA DE GERENCIAMENTO DE PROJETOS PARA FREELANCERS
 
 Trabalho 1 - Sistemas de Bancos de Dados (SBD)
-Aluno: Roan Osorio Nunes de Souza (Matrícula: 202110048811)
 
 ## 1. OBJETIVO DO PROJETO
 
