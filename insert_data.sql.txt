@@ -1,0 +1,49 @@
+-- TRABALHO SBD - UERJ
+-- Script 2/2: Inserção de Dados Fictícios (DML)
+-- Esquema: sigprofree_db
+
+USE sigprofree_db;
+
+-- 1. Inserir Clientes (ID 1, 2 e o Cliente de Teste 3)
+INSERT INTO cliente (nome, email, telefone) VALUES 
+('TechCorp Inovação', 'contato@techcorp.com', '11987654321'),
+('Agência Marketing Digital', 'contato@agenciamd.com', '21912345678'),
+('Cliente Teste', 'teste@excluir.com', '999999999'); -- Cliente sem projetos para teste DELETE
+
+-- 2. Inserir Freelancers (ID 1, 2 e o Freelancer de Teste 3)
+INSERT INTO freelancer (nome, email, especialidade) VALUES 
+('Carlos Souza', 'carlos.souza@free.com', 'React & Node.js'),
+('Ana Beatriz', 'ana.beatriz@free.com', 'UX/UI Designer'),
+('Maria Santos', 'maria@nova.com', 'Designer UX'); -- Freelancer inserido via Front-end (se a tabela estiver vazia)
+
+-- 3. Inserir Tecnologias (ID 1, 2, 3)
+INSERT INTO tecnologia (nome_tecnologia) VALUES 
+('React'),
+('Node.js'),
+('MySQL');
+
+-- 4. Inserir Projetos (ID 1 e 2, associados aos Clientes 1 e 2)
+INSERT INTO projeto (titulo, descricao, data_inicio, data_fim_estimada, status_projeto, id_cliente) VALUES
+('Plataforma E-commerce V2', 'Desenvolvimento de uma nova plataforma de vendas moderna.', '2025-11-20', '2026-02-15', 'Em Andamento', 1),
+('Landing Page para Campanha', 'Criação de página otimizada para nova campanha de anúncios.', '2025-12-01', '2025-12-15', 'Concluído', 2);
+
+-- 5. Inserir Tarefas (Associadas aos Projetos 1 e 2)
+INSERT INTO tarefa (descricao, data_limite, prioridade, status_tarefa, id_projeto) VALUES
+('Configurar ambiente de desenvolvimento Node.js', '2025-11-22', 'Alta', 'Concluída', 1),
+('Criar layout mobile para Landing Page', '2025-12-05', 'Alta', 'Em Revisão', 2),
+('Implementar CRUD de Produtos no Back-end', '2025-12-10', 'Média', 'A Fazer', 1);
+
+-- 6. Inserir Pagamentos (Associados aos Projetos 1 e 2)
+INSERT INTO pagamento (valor, data_pagamento, status_pagamento, id_projeto) VALUES 
+(7500.00, '2025-12-05', 'Pago', 1),
+(1800.00, '2025-12-15', 'Pendente', 2);
+
+-- 7. Associar Freelancers a Projetos (M:N)
+INSERT INTO freelancer_projeto (id_freelancer, id_projeto) VALUES
+(1, 1), 
+(2, 2); 
+
+-- 8. Associar Tecnologias a Tarefas (M:N)
+INSERT INTO tarefa_tecnologia (id_tarefa, id_tecnologia) VALUES
+(1, 2), 
+(3, 3);

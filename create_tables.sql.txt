@@ -1,0 +1,81 @@
+-- TRABALHO SBD - UERJ
+-- Script 1/2: Criação da Estrutura do Banco de Dados (DDL)
+-- Esquema: sigprofree_db
+
+-- 1. Seleciona o Banco de Dados
+USE sigprofree_db;
+
+-- 2. Tabela CLIENTE
+CREATE TABLE cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefone VARCHAR(20)
+);
+
+-- 3. Tabela FREELANCER
+CREATE TABLE freelancer (
+    id_freelancer INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    especialidade VARCHAR(50)
+);
+
+-- 4. Tabela PROJETO (FK para CLIENTE)
+CREATE TABLE projeto (
+    id_projeto INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    data_inicio DATE NOT NULL,
+    data_fim_estimada DATE,
+    status_projeto VARCHAR(30) DEFAULT 'Pendente',
+    id_cliente INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+-- 5. Tabela PAGAMENTO (FK para PROJETO, com restrição UNIQUE para 1:1)
+CREATE TABLE pagamento (
+    id_pagamento INT AUTO_INCREMENT PRIMARY KEY,
+    valor DECIMAL(10, 2) NOT NULL,
+    data_pagamento DATE,
+    status_pagamento VARCHAR(30) DEFAULT 'Pendente',
+    id_projeto INT UNIQUE NOT NULL,
+    FOREIGN KEY (id_projeto) REFERENCES projeto(id_projeto)
+);
+
+-- 6. Tabela TECNOLOGIA
+CREATE TABLE tecnologia (
+    id_tecnologia INT AUTO_INCREMENT PRIMARY KEY,
+    nome_tecnologia VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- 7. Tabela TAREFA (FK para PROJETO)
+CREATE TABLE tarefa (
+    id_tarefa INT AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(255) NOT NULL,
+    data_limite DATE,
+    prioridade VARCHAR(20) DEFAULT 'Média',
+    status_tarefa VARCHAR(30) DEFAULT 'A Fazer',
+    id_projeto INT NOT NULL,
+    FOREIGN KEY (id_projeto) REFERENCES projeto(id_projeto)
+);
+
+-- 8. Tabela Associativa M:N: FREELANCER_PROJETO
+CREATE TABLE freelancer_projeto (
+    id_freelancer_projeto INT AUTO_INCREMENT PRIMARY KEY,
+    id_freelancer INT NOT NULL,
+    id_projeto INT NOT NULL,
+    FOREIGN KEY (id_freelancer) REFERENCES freelancer(id_freelancer),
+    FOREIGN KEY (id_projeto) REFERENCES projeto(id_projeto),
+    UNIQUE (id_freelancer, id_projeto)
+);
+
+-- 9. Tabela Associativa M:N: TAREFA_TECNOLOGIA
+CREATE TABLE tarefa_tecnologia (
+    id_tarefa_tecnologia INT AUTO_INCREMENT PRIMARY KEY,
+    id_tarefa INT NOT NULL,
+    id_tecnologia INT NOT NULL,
+    FOREIGN KEY (id_tarefa) REFERENCES tarefa(id_tarefa),
+    FOREIGN KEY (id_tecnologia) REFERENCES tecnologia(id_tecnologia),
+    UNIQUE (id_tarefa, id_tecnologia)
+);
